@@ -1,10 +1,17 @@
 const submit = document.querySelector("#sbmBtn");
 let numPerSide = 0;
+// Color for a square
+let r = 0;
+let g = 0;
+let b = 0;
+randomColor();
+
 submit.addEventListener("click", () => {
     numPerSide = (document.querySelector("#numPerSide")).value;
     cleanUpBoard();
     gridBoard();
 });
+
 
 /*********************************************/
 function gridBoard() {
@@ -12,6 +19,8 @@ function gridBoard() {
     const container = document.querySelector("#container");
     const grids = document.createElement("div");
 
+    // Random pick a color for the hvor square
+  
     grids.style.width = "960px";
     grids.style.height = "960px";
     grids.style.border = "0.001em solid gray";
@@ -35,7 +44,9 @@ function gridBoard() {
 
             // add event listener for the grid, change color when mouse over
             grid.addEventListener("mouseover", () => {
-                grid.style.backgroundColor = "#c499c0";
+                grid.style.backgroundColor = getRGBstr();
+                // Random pick next color
+                randomColor();
             })
             
             row.appendChild(grid);
@@ -62,4 +73,20 @@ function cleanUpBoard() {
     if (grids) {
         container.removeChild(grids);
     }
+}
+
+function getRandom(min, max) {
+    return (Math.floor(Math.random() * (max - min) + min));
+}
+
+function getRGBstr() {
+  return ("rgb(" + r.toString() + ", " + g.toString()  + ", " + b.toString() + ")");
+}
+
+function randomColor()
+{
+    r = Math.floor(Math.random() * 255);
+    g = Math.floor(Math.random() * 255);
+    b = Math.floor(Math.random() * 255);
+
 }
