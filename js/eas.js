@@ -35,7 +35,7 @@ function gridBoard() {
 
             // add event listener for the grid, change color when mouse over
             grid.addEventListener("mouseover", () => {
-                grid.style.backgroundColor = "#c499c0"
+                grid.style.backgroundColor = "#c499c0";
             })
             
             row.appendChild(grid);

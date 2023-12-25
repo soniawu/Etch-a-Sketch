@@ -1,0 +1,14 @@
+body {
+    background-color: rgb(240,242,218);
+}
+
+#getNum {
+    margin: 40px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#container {
+    width: 50%;
+    margin: auto;
+}
