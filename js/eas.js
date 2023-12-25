@@ -6,6 +6,16 @@ let g = 0;
 let b = 0;
 randomColor();
 
+ // The factor to be darken for each prime color
+let rDarken = 0;
+let gDarken = 0;
+let bDarken = 0;
+
+setDarken();
+
+// Number of interractive
+let count = 10;
+
 submit.addEventListener("click", () => {
     numPerSide = (document.querySelector("#numPerSide")).value;
     cleanUpBoard();
@@ -14,12 +24,21 @@ submit.addEventListener("click", () => {
 
 
 /*********************************************/
+/*
+    This is the core function.
+    1) Draw the grids based on the number of grids per side in user input
+    2) Append a event listener on each grid, when mouseover to the grid, changes it's color
+    3) Manage the grid color scheme - start with a random color, on the following 9 interactions,
+       darken the color ~10%, on the 10th, it's completely black, 
+       then random pick a color for next round
+*/
 function gridBoard() {
 
     const container = document.querySelector("#container");
     const grids = document.createElement("div");
-
-    // Random pick a color for the hvor square
+ 
+    // number of interactions
+    let interats = 1;
   
     grids.style.width = "960px";
     grids.style.height = "960px";
@@ -44,9 +63,30 @@ function gridBoard() {
 
             // add event listener for the grid, change color when mouse over
             grid.addEventListener("mouseover", () => {
+                /*console.log(`interact - ${interats}`);
+                console.log(`current: r-${r}, g${g}, b${b}`);
+                console.log(`Darden: r-${rDarken}, g-${gDarken}, b-${bDarken}`) */
                 grid.style.backgroundColor = getRGBstr();
-                // Random pick next color
-                randomColor();
+                if (interats < 9) {
+                    r -= rDarken;
+                    (r >= 0 ? r : 0);
+                    g -= gDarken;
+                    (g >= 0 ? g : 0);
+                    b -= bDarken;
+                    (b >= 0 ? b : 0);
+
+                    interats += 1;
+                } else if (interats === 9) {
+                    r = 0;
+                    g = 0;
+                    b = 0;
+                    interats += 1;
+                } else {
+                    // Start anoth 10 interacts. Random pick next color
+                    randomColor();
+                    setDarken();
+                    interats = 1;
+                }
             })
             
             row.appendChild(grid);
@@ -67,6 +107,19 @@ function gridBoard() {
 }
 
 /**********************************************/
+/*
+    This function set the darken factor
+*/
+function setDarken() {
+    rDarken = Math.round(r / 9);
+    gDarken = Math.round(g / 9);
+    bDarken = Math.round(b / 9);
+}
+
+/**********************************************/
+/*
+    This function clears out current grids for a new game.
+*/
 function cleanUpBoard() {
     const container = document.querySelector("#container");
     const grids = document.querySelector("#grids");
@@ -75,18 +128,22 @@ function cleanUpBoard() {
     }
 }
 
-function getRandom(min, max) {
-    return (Math.floor(Math.random() * (max - min) + min));
-}
-
+/*********************************************/
+/*
+    This function returns a string for color property based on current color
+*/
 function getRGBstr() {
   return ("rgb(" + r.toString() + ", " + g.toString()  + ", " + b.toString() + ")");
 }
 
+/*********************************************/
+/*
+    This function generate a random color.
+*/
 function randomColor()
 {
-    r = Math.floor(Math.random() * 255);
-    g = Math.floor(Math.random() * 255);
-    b = Math.floor(Math.random() * 255);
+    r = Math.round(Math.random() * 255);
+    g = Math.round(Math.random() * 255);
+    b = Math.round(Math.random() * 255);
 
 }
